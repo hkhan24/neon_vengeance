@@ -8,6 +8,7 @@ import 'components/actors/chaos_jester.dart';
 import 'components/actors/divine_warrior.dart';
 import 'components/actors/bolt_speedster.dart';
 import 'components/actors/zombie_enemy.dart';
+import 'components/skills/special_effects.dart';
 import 'managers/enemy_manager.dart';
 import 'package:flame_audio/flame_audio.dart';
 import '../state/game_state.dart';
@@ -67,11 +68,31 @@ class NeonVengeanceGame extends FlameGame with HasCollisionDetection {
 
   void triggerSpecial() {
     doSpecial = true;
+
+    // Get player position for VFX origin
+    final player = children.whereType<Player>().firstOrNull;
+    final origin = player?.position.clone() ?? Vector2(size.x / 2, size.y / 2);
+
+    // Spawn hero-specific visual effect
+    switch (heroType) {
+      case HeroType.vigilante:
+        add(FearStrikeEffect(origin: origin));
+        break;
+      case HeroType.jester:
+        add(LaughingGasEffect(origin: origin));
+        break;
+      case HeroType.warrior:
+        add(AmazonianShockEffect(origin: origin));
+        break;
+      case HeroType.speedster:
+        add(SupersonicVortexEffect(origin: origin));
+        break;
+    }
     
-    // Fear Strike AoE damage to all zombies
+    // AoE damage to all zombies
     final zombies = children.whereType<ZombieEnemy>();
     for (var z in zombies) {
-      z.takeDamage(100); // 1-hit kill for mobs in radius (assume infinite radius for now)
+      z.takeDamage(100);
     }
   }
 }

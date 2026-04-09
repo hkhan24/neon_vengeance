@@ -10,6 +10,8 @@ ASSETS_DIR = 'assets/images'
 SPRITE_FILES = [
     'vigilante_idle.png', 'vigilante_walk.png', 'vigilante_attack.png',
     'jester_idle.png', 'jester_walk.png', 'jester_attack.png',
+    'warrior_idle.png', 'warrior_walk.png', 'warrior_attack.png',
+    'speedster_idle.png', 'speedster_walk.png', 'speedster_attack.png',
     'zombie_walk.png',
 ]
 
