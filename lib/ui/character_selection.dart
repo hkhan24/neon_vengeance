@@ -70,41 +70,42 @@ class CharacterSelectionScreen extends StatelessWidget {
           ),
           // Content
           SafeArea(
-            child: Column(
-              children: [
-                const SizedBox(height: 40),
-                // Title
-                ShaderMask(
-                  shaderCallback: (bounds) => const LinearGradient(
-                    colors: [Color(0xFFFF00FF), Color(0xFF00FFFF)],
-                  ).createShader(bounds),
-                  child: const Text(
-                    'NEON VENGEANCE',
-                    style: TextStyle(
-                      fontSize: 48,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                      letterSpacing: 6,
-                      shadows: [
-                        Shadow(color: Color(0xFFFF00FF), blurRadius: 30),
-                        Shadow(color: Color(0xFF00FFFF), blurRadius: 60),
-                      ],
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 40),
+                  // Title
+                  ShaderMask(
+                    shaderCallback: (bounds) => const LinearGradient(
+                      colors: [Color(0xFFFF00FF), Color(0xFF00FFFF)],
+                    ).createShader(bounds),
+                    child: const Text(
+                      'NEON VENGEANCE',
+                      style: TextStyle(
+                        fontSize: 48,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                        letterSpacing: 6,
+                        shadows: [
+                          Shadow(color: Color(0xFFFF00FF), blurRadius: 30),
+                          Shadow(color: Color(0xFF00FFFF), blurRadius: 60),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'CHOOSE YOUR HERO',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w300,
-                    color: Colors.white.withValues(alpha: 0.7),
-                    letterSpacing: 8,
+                  const SizedBox(height: 8),
+                  Text(
+                    'CHOOSE YOUR HERO',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w300,
+                      color: Colors.white.withValues(alpha: 0.7),
+                      letterSpacing: 8,
+                    ),
                   ),
-                ),
-                const Spacer(),
-                // Hero cards row
-                Padding(
+                  const SizedBox(height: 24),
+                  // Hero cards row
+                  Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -122,8 +123,9 @@ class CharacterSelectionScreen extends StatelessWidget {
               ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
+    ),
     );
   }
 }

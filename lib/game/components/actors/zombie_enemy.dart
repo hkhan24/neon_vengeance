@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame/collisions.dart';
+import 'package:flutter/services.dart';
 import '../../neon_vengeance_game.dart';
 import '../../../state/game_state.dart';
 import 'player.dart';
@@ -29,6 +30,14 @@ class ZombieEnemy extends SpriteAnimationComponent with HasGameReference<NeonVen
   @override
   void update(double dt) {
     super.update(dt);
+    
+    // Remove if way off screen
+    if (position.x < -500 || position.x > game.size.x + 500 || 
+        position.y < -500 || position.y > game.size.y + 500) {
+      removeFromParent();
+      return;
+    }
+
     if (damageCooldown > 0) damageCooldown -= dt;
     
     final player = game.children.whereType<Player>().firstOrNull;
@@ -54,6 +63,7 @@ class ZombieEnemy extends SpriteAnimationComponent with HasGameReference<NeonVen
   }
 
   void takeDamage(int amount) {
+    HapticFeedback.heavyImpact();
     health -= amount;
     if (health <= 0) {
       game.ref.read(gameStateProvider.notifier).addScore(50);

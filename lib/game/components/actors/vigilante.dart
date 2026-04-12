@@ -14,17 +14,21 @@ class Vigilante extends Player {
     final attackImg = await game.images.load('vigilante_attack.png');
 
     animations = {
-      PlayerState.idle: SpriteAnimation.spriteList(
-        [Sprite(idleImg)], stepTime: double.infinity,
+      PlayerState.idle: SpriteAnimation.fromFrameData(
+        idleImg,
+        SpriteAnimationData.sequenced(amount: 16, stepTime: 0.1, textureSize: Vector2(idleImg.width / 4, idleImg.height / 4)),
       ),
-      PlayerState.walk: SpriteAnimation.spriteList(
-        [Sprite(walkImg)], stepTime: double.infinity,
+      PlayerState.walk: SpriteAnimation.fromFrameData(
+        walkImg,
+        SpriteAnimationData.sequenced(amount: 16, stepTime: 0.1, textureSize: Vector2(walkImg.width / 4, walkImg.height / 4)),
       ),
-      PlayerState.attack: SpriteAnimation.spriteList(
-        [Sprite(attackImg)], stepTime: 0.3, loop: false,
+      PlayerState.attack: SpriteAnimation.fromFrameData(
+        attackImg,
+        SpriteAnimationData.sequenced(amount: 16, stepTime: 0.05, textureSize: Vector2(attackImg.width / 4, attackImg.height / 4), loop: false),
       ),
-      PlayerState.special: SpriteAnimation.spriteList(
-        [Sprite(attackImg)], stepTime: 0.3, loop: false,
+      PlayerState.special: SpriteAnimation.fromFrameData(
+        attackImg,
+        SpriteAnimationData.sequenced(amount: 16, stepTime: 0.05, textureSize: Vector2(attackImg.width / 4, attackImg.height / 4), loop: false),
       ),
     };
 
