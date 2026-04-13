@@ -4,18 +4,21 @@ class GameState {
   final int health;
   final int specialMeter;
   final int score;
+  final int zombiesKilled;
 
   const GameState({
     this.health = 100,
     this.specialMeter = 0,
     this.score = 0,
+    this.zombiesKilled = 0,
   });
 
-  GameState copyWith({int? health, int? specialMeter, int? score}) {
+  GameState copyWith({int? health, int? specialMeter, int? score, int? zombiesKilled}) {
     return GameState(
       health: health ?? this.health,
       specialMeter: specialMeter ?? this.specialMeter,
       score: score ?? this.score,
+      zombiesKilled: zombiesKilled ?? this.zombiesKilled,
     );
   }
 }
@@ -34,6 +37,10 @@ class GameStateNotifier extends Notifier<GameState> {
 
   void addScore(int points) {
     state = state.copyWith(score: state.score + points);
+  }
+
+  void incrementZombieKill() {
+    state = state.copyWith(zombiesKilled: state.zombiesKilled + 1);
   }
 
   void fillSpecial(int amount) {

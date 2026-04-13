@@ -2,6 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'components/levels/dystopian_background.dart';
+import 'components/levels/forest_background.dart';
 import 'components/actors/player.dart';
 import 'components/actors/vigilante.dart';
 import 'components/actors/chaos_jester.dart';
@@ -24,6 +25,21 @@ class NeonVengeanceGame extends FlameGame with HasCollisionDetection {
   Vector2 joystickDelta = Vector2.zero();
   bool isAttacking = false;
   bool doSpecial = false;
+  bool isBossSpawned = false;
+  bool isLevelTwo = false;
+
+  void startLevelTwo() {
+    isLevelTwo = true;
+    
+    // Remove old background
+    children.whereType<DystopianBackground>().forEach((b) => b.removeFromParent());
+    
+    // Add new dark forest background
+    add(ForestBackground());
+    
+    // Change music
+    FlameAudio.bgm.play('level2_bgm.wav', volume: 0.5);
+  }
 
   @override
   Future<void> onLoad() async {

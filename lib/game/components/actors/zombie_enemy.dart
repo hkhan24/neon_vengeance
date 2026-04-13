@@ -67,6 +67,7 @@ class ZombieEnemy extends SpriteAnimationComponent with HasGameReference<NeonVen
     health -= amount;
     if (health <= 0) {
       game.ref.read(gameStateProvider.notifier).addScore(50);
+      game.ref.read(gameStateProvider.notifier).incrementZombieKill();
       removeFromParent();
     }
   }
