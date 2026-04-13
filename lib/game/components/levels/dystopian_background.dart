@@ -3,6 +3,7 @@ import 'package:flame/parallax.dart';
 import '../../neon_vengeance_game.dart';
 
 class DystopianBackground extends ParallaxComponent<NeonVengeanceGame> {
+  DystopianBackground() : super(priority: -1);
   @override
   Future<void> onLoad() async {
     parallax = await game.loadParallax(

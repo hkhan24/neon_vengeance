@@ -4,6 +4,7 @@ import '../../neon_vengeance_game.dart';
 import 'package:flutter/painting.dart';
 
 class ForestBackground extends ParallaxComponent<NeonVengeanceGame> {
+  ForestBackground() : super(priority: -1);
   @override
   Future<void> onLoad() async {
     super.onLoad();

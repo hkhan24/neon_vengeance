@@ -2,7 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame/collisions.dart';
 import '../../neon_vengeance_game.dart';
 import '../../../state/game_state.dart';
-import '../actors/zombie_enemy.dart';
+import '../actors/base_enemy.dart';
 
 /// Thunder Zap: A homing chain-lightning bolt that seeks the nearest enemy.
 /// On hit, it chains to nearby enemies for devastating multi-target damage.
@@ -38,8 +38,8 @@ class ThunderZap extends SpriteComponent with HasGameReference<NeonVengeanceGame
 
     if (_hasHit) return;
 
-    // Home towards nearest zombie
-    final zombies = game.children.whereType<ZombieEnemy>();
+    // Home towards nearest zombie or boss
+    final zombies = game.children.whereType<BaseEnemy>();
     if (zombies.isEmpty) {
       // No targets — keep flying forward
       position.x += speed * dt;
@@ -66,16 +66,16 @@ class ThunderZap extends SpriteComponent with HasGameReference<NeonVengeanceGame
   @override
   void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollisionStart(intersectionPoints, other);
-    if (other is ZombieEnemy && !_hasHit) {
+    if (other is BaseEnemy && !_hasHit) {
       _hasHit = true;
       other.takeDamage(25);
       game.ref.read(gameStateProvider.notifier).fillSpecial(25);
       
-      // Chain to nearest other zombie within range
+      // Chain to nearest other enemy within range
       if (chainsRemaining > 0) {
-        final zombies = game.children.whereType<ZombieEnemy>()
+        final enemies = game.children.whereType<BaseEnemy>()
             .where((z) => z != other && (z.position - position).length < 350);
-        if (zombies.isNotEmpty) {
+        if (enemies.isNotEmpty) {
           game.add(ThunderZap(position: position.clone(), chainsRemaining: chainsRemaining - 1));
         }
       }

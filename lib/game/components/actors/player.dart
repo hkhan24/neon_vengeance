@@ -21,8 +21,8 @@ abstract class Player extends SpriteAnimationGroupComponent<PlayerState> with Ha
     velocity = game.joystickDelta * speed;
     position += velocity * dt;
 
-    // Bounds check
-    position.x = position.x.clamp(0, game.size.x);
+    // Bounds check to keep entirely visible on screen
+    position.x = position.x.clamp(75, game.size.x - 75);
     position.y = position.y.clamp(game.size.y - 250, game.size.y - 50);
 
     // Track base Y for bob offset

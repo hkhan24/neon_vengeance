@@ -2,7 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame/collisions.dart';
 import '../../neon_vengeance_game.dart';
 import '../../../state/game_state.dart';
-import '../actors/zombie_enemy.dart';
+import '../actors/base_enemy.dart';
 
 class Batarang extends SpriteComponent with HasGameReference<NeonVengeanceGame>, CollisionCallbacks {
   final double direction;
@@ -37,7 +37,7 @@ class Batarang extends SpriteComponent with HasGameReference<NeonVengeanceGame>,
   @override
   void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollisionStart(intersectionPoints, other);
-    if (other is ZombieEnemy) {
+    if (other is BaseEnemy) {
       other.takeDamage(15);
       removeFromParent();
       game.ref.read(gameStateProvider.notifier).fillSpecial(20);

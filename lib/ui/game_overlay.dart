@@ -242,10 +242,17 @@ class _GameOverlayState extends ConsumerState<GameOverlay> {
   Widget _buildJoystick() {
     return GestureDetector(
       onPanUpdate: (details) {
-        final delta = details.delta;
-        // Basic normalization
+        // Center of the 120x120 Container
+        const center = Offset(60, 60);
+        final delta = details.localPosition - center;
+        
         final v = Vector2(delta.dx, delta.dy);
-        if (v.length > 0) v.normalize();
+        // Small deadzone so resting the thumb perfectly centered doesn't jitter
+        if (v.length > 15) {
+          v.normalize();
+        } else {
+          v.setZero();
+        }
         widget.game.updateJoystick(v);
       },
       onPanEnd: (_) {

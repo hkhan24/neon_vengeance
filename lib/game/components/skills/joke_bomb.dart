@@ -2,7 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame/collisions.dart';
 import '../../neon_vengeance_game.dart';
 import '../../../state/game_state.dart';
-import '../actors/zombie_enemy.dart';
+import '../actors/base_enemy.dart';
 
 class JokeBomb extends SpriteComponent with HasGameReference<NeonVengeanceGame>, CollisionCallbacks {
   final double direction;
@@ -49,13 +49,13 @@ class JokeBomb extends SpriteComponent with HasGameReference<NeonVengeanceGame>,
   @override
   void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollisionStart(intersectionPoints, other);
-    if (other is ZombieEnemy) {
+    if (other is BaseEnemy) {
       explode(hitDirectTarget: other);
     }
   }
 
-  void explode({ZombieEnemy? hitDirectTarget}) {
-    final zombies = game.children.whereType<ZombieEnemy>();
+  void explode({BaseEnemy? hitDirectTarget}) {
+    final zombies = game.children.whereType<BaseEnemy>();
     bool hitAny = false;
     for (var z in zombies) {
       if ((z.position - position).length < 120) { 

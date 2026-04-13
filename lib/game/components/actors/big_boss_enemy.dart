@@ -1,14 +1,17 @@
 import 'package:flame/components.dart';
 import 'package:flame/collisions.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 import '../../neon_vengeance_game.dart';
 import '../../../state/game_state.dart';
 import '../levels/dystopian_background.dart';
 import 'player.dart';
+import 'base_enemy.dart';
 
-class BigBossEnemy extends SpriteComponent with HasGameReference<NeonVengeanceGame>, CollisionCallbacks {
+class BigBossEnemy extends SpriteComponent with HasGameReference<NeonVengeanceGame>, CollisionCallbacks, BaseEnemy {
   double speed = 50; // Slower but deadlier
-  int health = 10; // Requires exactly 10 hits
+  int health = 200; // Roughly 10 standard hits, but Superpowers (100) will chunk him!
+  final int maxHealth = 200;
   double damageCooldown = 0;
   
   BigBossEnemy({required Vector2 position}) : super(position: position, size: Vector2(300, 300), anchor: Anchor.center) {
@@ -58,8 +61,8 @@ class BigBossEnemy extends SpriteComponent with HasGameReference<NeonVengeanceGa
 
   void takeDamage(int amount) {
     HapticFeedback.heavyImpact();
-    // Boss takes exactly 1 hit of damage per special strike regardless of generic damage amount
-    health -= 1;
+    // Use the actual damage amount so Ultimates do massive damage!
+    health -= amount;
     
     // Size changes slightly on hit to show feedback
     scale = Vector2.all(0.95);
@@ -73,5 +76,28 @@ class BigBossEnemy extends SpriteComponent with HasGameReference<NeonVengeanceGa
       // Trigger level two transition via game
       game.startLevelTwo();
     }
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+
+    final barWidth = size.x * 0.6;
+    const barHeight = 12.0;
+    final xOffset = (size.x - barWidth) / 2;
+    const yOffset = -20.0;
+    
+    // Background bar
+    canvas.drawRect(
+      Rect.fromLTWH(xOffset, yOffset, barWidth, barHeight),
+      Paint()..color = Colors.red.withValues(alpha: 0.8),
+    );
+    
+    // Foreground bar
+    final healthPct = (health / maxHealth).clamp(0.0, 1.0);
+    canvas.drawRect(
+      Rect.fromLTWH(xOffset, yOffset, barWidth * healthPct, barHeight),
+      Paint()..color = Colors.orangeAccent,
+    );
   }
 }

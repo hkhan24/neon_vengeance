@@ -8,6 +8,7 @@ import 'components/actors/vigilante.dart';
 import 'components/actors/chaos_jester.dart';
 import 'components/actors/divine_warrior.dart';
 import 'components/actors/bolt_speedster.dart';
+import 'components/actors/base_enemy.dart';
 import 'components/actors/zombie_enemy.dart';
 import 'components/skills/special_effects.dart';
 import 'managers/enemy_manager.dart';
@@ -105,10 +106,10 @@ class NeonVengeanceGame extends FlameGame with HasCollisionDetection {
         break;
     }
     
-    // AoE damage to all zombies
-    final zombies = children.whereType<ZombieEnemy>();
-    for (var z in zombies) {
-      z.takeDamage(100);
+    // AoE damage to all enemies
+    final enemies = children.whereType<BaseEnemy>();
+    for (var e in enemies) {
+      e.takeDamage(100);
     }
   }
 }

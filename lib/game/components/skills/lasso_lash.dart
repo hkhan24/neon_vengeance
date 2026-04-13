@@ -2,7 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame/collisions.dart';
 import '../../neon_vengeance_game.dart';
 import '../../../state/game_state.dart';
-import '../actors/zombie_enemy.dart';
+import '../actors/base_enemy.dart';
 
 /// Lasso Lash: A whip-like projectile that extends outward, dealing damage
 /// and pulling enemies closer. Travels a long distance before retracting.
@@ -13,7 +13,7 @@ class LassoLash extends SpriteComponent with HasGameReference<NeonVengeanceGame>
   double _distanceTravelled = 0;
   final double maxDistance = 350;
   bool _returning = false;
-  final Set<ZombieEnemy> _hitEnemies = {};
+  final Set<BaseEnemy> _hitEnemies = {};
 
   LassoLash({required Vector2 position, required this.direction})
     : super(
@@ -61,7 +61,7 @@ class LassoLash extends SpriteComponent with HasGameReference<NeonVengeanceGame>
   @override
   void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollisionStart(intersectionPoints, other);
-    if (other is ZombieEnemy && !_hitEnemies.contains(other)) {
+    if (other is BaseEnemy && !_hitEnemies.contains(other)) {
       _hitEnemies.add(other);
       other.takeDamage(18);
       // Pull enemy closer (towards the player's direction)

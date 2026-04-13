@@ -1,13 +1,16 @@
 import 'package:flame/components.dart';
 import 'package:flame/collisions.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 import '../../neon_vengeance_game.dart';
 import '../../../state/game_state.dart';
 import 'player.dart';
+import 'base_enemy.dart';
 
-class ZombieEnemy extends SpriteAnimationComponent with HasGameReference<NeonVengeanceGame>, CollisionCallbacks {
+class ZombieEnemy extends SpriteAnimationComponent with HasGameReference<NeonVengeanceGame>, CollisionCallbacks, BaseEnemy {
   double speed = 100;
   int health = 30;
+  final int maxHealth = 30;
   double damageCooldown = 0;
   
   ZombieEnemy({required Vector2 position}) : super(position: position, size: Vector2(120, 120), anchor: Anchor.center) {
@@ -70,5 +73,26 @@ class ZombieEnemy extends SpriteAnimationComponent with HasGameReference<NeonVen
       game.ref.read(gameStateProvider.notifier).incrementZombieKill();
       removeFromParent();
     }
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+
+    final barWidth = size.x * 0.8;
+    const barHeight = 6.0;
+    final xOffset = (size.x - barWidth) / 2;
+    const yOffset = -10.0;
+    
+    canvas.drawRect(
+      Rect.fromLTWH(xOffset, yOffset, barWidth, barHeight),
+      Paint()..color = Colors.red.withValues(alpha: 0.8),
+    );
+    
+    final healthPct = (health / maxHealth).clamp(0.0, 1.0);
+    canvas.drawRect(
+      Rect.fromLTWH(xOffset, yOffset, barWidth * healthPct, barHeight),
+      Paint()..color = Colors.greenAccent,
+    );
   }
 }
